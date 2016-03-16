@@ -14,6 +14,12 @@ describe OrkutClient do
       current_user_info_response
     }
 
+    let(:my_friends_response){
+      my_friends_response = double()
+      allow(my_friends_response).to receive(:body).and_return("{}")
+      my_friends_response
+    }
+
 
 	it "should sign_in to Orkut Server" do 
       #setup 
@@ -71,6 +77,31 @@ describe OrkutClient do
          expect(response).to be_a(Hash)
     end
   end
+
+  context "#get_my_friends" do 
+    it "should throw an exception if the user is not signed in" do 
+        orkut_client = OrkutClient.new 
+        expect{ orkut_client.get_my_friends }.to raise_error(/not signed in/)
+    end
+
+    it "should call the get my friends info endpoint passing the authentication token" do
+
+        allow(Authorizable).to receive(:signed_in?).and_return(true)
+        allow(Authorizable).to receive(:get_token).and_return("my token")
+        
+        expect(RestClient::Request).to receive(:execute).with(hash_including(
+            method: :get,
+            url: /friendships\/me/,
+            headers: { :Authorization => "my token" }
+        )).and_return(my_friends_response)
+
+         orkut_client = OrkutClient.new
+
+         response = orkut_client.get_my_friends
+         expect(response).to be_a(Hash)
+    end
+  end
+
 end
 
 
