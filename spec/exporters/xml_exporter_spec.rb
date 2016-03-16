@@ -37,6 +37,10 @@ describe XMLExporter do
     	JSON.parse("[#{friends_string}]")
     }
 
+    let(:beginner_hash){
+      JSON.parse("[]")
+    }
+
     context "should export my friends in XML format " do 
        it "should say my social type is SOCIABLE" do
            xml_exported = exporter.export_friends(friends_hash,current_user_hash)
@@ -46,12 +50,18 @@ describe XMLExporter do
        end
 
         it "should say my social type is PARTY ANIMAL" do
-
            xml_exported = exporter.export_friends(party_animal_friends,current_user_hash)
-          
            xml_exported = Hash.from_xml(xml_exported)
    
            expect(xml_exported["user"]["socialType"]).to eq("PARTY ANIMAL")
        end
+
+       it "should say my social type is BEGINNER" do
+           xml_exported = exporter.export_friends(beginner_hash,current_user_hash)
+           xml_exported = Hash.from_xml(xml_exported)
+   
+           expect(xml_exported["user"]["socialType"]).to eq("BEGINNER")
+       end
+
     end
 end
