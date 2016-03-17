@@ -31,7 +31,7 @@ gem 'coveralls', require: false
 gem 'simplecov', require: false
 gem 'nokogiri'
 gem 'json_builder'
-
+gem 'pry', '~> 0.10.3'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
