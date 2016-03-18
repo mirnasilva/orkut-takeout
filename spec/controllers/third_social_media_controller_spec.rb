@@ -36,11 +36,6 @@ describe ThirdSocialMediaController do
     sign_in_response
   }
 
-  #  let(:controller_response){
-  #   controller_response = double()
-  #   allow(controller_response).to receive(:export).and_return("social_network_3")
-  #   controller_response
-  # }
 
   it "should throw an error if login parameters are not passed" do
     expect { get :export }.to raise_error(/User missing/)
@@ -54,9 +49,6 @@ describe ThirdSocialMediaController do
 
     allow(RestClient::Request).to receive(:execute)
     .with(hash_including(url:/users\/me/)).and_return(user_response)
-
-    # allow(RestClient::Request).to receive(:execute)
-    # .with(hash_including(export:"social_network_3")).and_return(controller_response)
 
     get :export, user: "my_user@me", password: "my_password"
 
